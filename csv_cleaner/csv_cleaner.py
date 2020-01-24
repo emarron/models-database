@@ -3,14 +3,15 @@ import pandas as pd
 
 
 def convert_si_to_number(i):
+
+    i = i.lower().strip(',')
     result = i
-    i = i.lower()
     if 'k' in i:
-        result = float(i.strip('k')) * 1000
+        result = int(float(i.strip('k')) * 1000)
     if 'm' in i:
-        result = float(i.strip('m')) * 1000000
+        result = int(float(i.strip('m')) * 1000000)
     try:
-        return float(result)
+        return int(result)
     except ValueError:
         return i
 
@@ -23,7 +24,7 @@ def convert_csv_to_dict(csvinput):
     return dict_models
 
 
-csvinput = "input-3.csv"
+csvinput = "input.csv"
 list_models = convert_csv_to_dict(csvinput)
 columns = []
 # list of dictionaries; just cleaning up the values of keys with specific rules. i.e., 'Iterations' must be float.
@@ -37,4 +38,4 @@ for dict_models in list_models:
 
 df = pd.DataFrame(list_models)
 # Giving an index for unique key. No change of duplicates.
-export_csv = df.to_csv(r'export_models.csv', header=None)
+export_csv = df.to_csv(r'export_models.csv')
